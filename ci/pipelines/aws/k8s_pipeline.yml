@@ -142,7 +142,7 @@ jobs:
     - get: terraform_state
     - get: infrastructure_image
 
-  - task: deploy_cf
+  - task: deploy_k8s
     image: infrastructure_image
     file: k8s_deployment/ci/tasks/deploy_k8s/deploy_k8s.yml
     params:
@@ -158,10 +158,10 @@ jobs:
   plan:
   - aggregate:
     - get: trigger
-      passed: [ deploy_cf ]
+      passed: [ deploy_k8s ]
       trigger: true
     - get: k8s_deployment
-      passed: [ deploy_cf ]
+      passed: [ deploy_k8s ]
     - get: bosh_state
     - get: terraform_state
     - get: infrastructure_image
