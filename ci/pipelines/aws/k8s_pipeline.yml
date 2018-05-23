@@ -150,6 +150,10 @@ jobs:
       BACKEND: aws
       TERRAFORM_STATE_FILENAME: ((terraform_state_filename))
       BOSH_STATE_FILENAME: ((bosh_state_filename))
+      AWS_ACCESS_KEY: ((s3_access_key))
+      AWS_SECRET_KEY: ((s3_secret_key))
+      AWS_REGION: ((s3_region))
+      KUBO_RELEASE: ((kubo_release))
 
 - name: setup_k8s
   serial: true

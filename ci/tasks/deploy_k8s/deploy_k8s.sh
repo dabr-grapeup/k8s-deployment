@@ -12,5 +12,15 @@ export BOSH_ENVIRONMENT=${BOSH_IP}
 export BOSH_CLIENT=admin
 export BOSH_CLIENT_SECRET="$(bosh int bosh_state/creds.yml --path /admin_password)"
 
+# SETUP AWS
+export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY}
+export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
+
+# UPLOAD RELEASE (todo it should be probably compiled first, using precompiled for now)
+
+aws s3 cp "${KUBO_RELEASE}" kubo.tgz --region ${AWS_REGION}
+
+bosh upload-release kubo.tgz
+
 # DEPLOY K8s
 bosh -n -d cfcr deploy k8s_deployment/kubo-deployment/manifests/cfcr.yml

@@ -6,6 +6,12 @@ inputs:
 - name: bosh_state
 - name: terraform_state
 
+params:
+  AWS_ACCESS_KEY:
+  AWS_SECRET_KEY:
+  AWS_REGION:
+  KUBO_RELEASE:
+
 run:
   path: sh
   args:
