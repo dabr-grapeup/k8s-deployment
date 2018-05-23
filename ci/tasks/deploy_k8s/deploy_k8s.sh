@@ -22,6 +22,11 @@ aws s3 cp "${KUBO_RELEASE}" kubo.tgz --region ${AWS_REGION}
 
 bosh upload-release kubo.tgz
 
+# UPLOAD STEMCELLS
+stemcell_version=$(bosh int k8s_deployment/kubo-deployment/manifests/cfcr.yml --path /stemcells/0/version)
+
+bosh upload-stemcell "https://s3.amazonaws.com/bosh-core-stemcells/aws/bosh-stemcell-${stemcell_version}-aws-xen-hvm-ubuntu-trusty-go_agent.tgz"
+
 # DEPLOY K8S
 bosh -n -d cfcr deploy k8s_deployment/kubo-deployment/manifests/cfcr.yml \
     -o k8s_deployment/ci/tasks/deploy_k8s/ops/vm-types.yml \
