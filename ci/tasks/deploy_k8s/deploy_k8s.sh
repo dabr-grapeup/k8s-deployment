@@ -13,4 +13,4 @@ export BOSH_CLIENT=admin
 export BOSH_CLIENT_SECRET="$(bosh int bosh_state/creds.yml --path /admin_password)"
 
 # DEPLOY K8s
-bosh -n -d cfcr deploy kubo-deployment/manifests/cfcr.yml
+bosh -n -d cfcr deploy k8s_deployment/kubo-deployment/manifests/cfcr.yml
