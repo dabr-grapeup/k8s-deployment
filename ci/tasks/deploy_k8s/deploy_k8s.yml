@@ -1,0 +1,16 @@
+---
+platform: linux
+
+inputs:
+- name: k8s_deployment
+- name: bosh_state
+- name: terraform_state
+- name: manifest
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    chmod +x k8s_deployment/ci/tasks/deploy_k8s/deploy_k8s.sh
+    k8s_deployment/ci/tasks/deploy_k8s/deploy_k8s.sh

@@ -1,0 +1,14 @@
+---
+platform: linux
+
+inputs:
+- name: k8s_deployment
+- name: terraform_state
+
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    chmod +x cf_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.sh
+    cf_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.sh

@@ -151,7 +151,7 @@ jobs:
       TERRAFORM_STATE_FILENAME: ((terraform_state_filename))
       BOSH_STATE_FILENAME: ((bosh_state_filename))
 
-- name: setup_cf
+- name: setup_k8s
   serial: true
   on_failure: *release_locks
   on_abort: *release_locks
@@ -194,7 +194,7 @@ jobs:
 
   - task: configure_jumpbox
     image: infrastructure_image
-    file: cf_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.yml
+    file: k8s_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.yml
     params:
       JUMPBOX_PRIVATE_KEY: ((jumpbox_private_key))
       TERRAFORM_STATE_FILENAME: ((terraform_state_filename))

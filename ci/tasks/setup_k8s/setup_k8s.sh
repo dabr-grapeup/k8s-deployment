@@ -1,0 +1,36 @@
+#!/bin/bash -ex
+
+# GET CREDS
+pushd bosh_state
+    tar -xvf ${BOSH_STATE_FILENAME}
+popd
+
+# SETUP CREDHUB
+export CREDHUB_BOSH_URL=https://$(cat bosh_state/bosh_ip):8844
+export CREDHUB_BOSH_USERNAME=director_to_credhub
+export CREDHUB_BOSH_PASSWORD=$(bosh int bosh_state/creds.yml --path /uaa_clients_director_to_credhub)
+
+credhub login --server ${CREDHUB_BOSH_URL} --client-name ${CREDHUB_BOSH_USERNAME} --client-secret ${CREDHUB_BOSH_PASSWORD} --skip-tls-validation
+
+credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password"
+
+K8S_ADMIN_PASSWORD=$(bosh int <(credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password" --output-json) --path=/value)
+K8S_ADMIN_USERNAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}-admin"
+K8S_MASTER_HOST=$(bosh int <(bosh instances --json) --path /Tables/0/Rows/0/ips)
+K8S_CLUSTER_NAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}"
+K8S_CONTEXT_NAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}"
+
+kubectl config set-cluster "${K8S_CLUSTER_NAME}" \
+  --server="https://${K8S_MASTER_HOST}:8443" \
+  --insecure-skip-tls-verify=true
+kubectl config set-credentials "${K8S_ADMIN_USERNAME}" --token="${K8S_ADMIN_PASSWORD}"
+kubectl config set-context "${K8S_CONTEXT_NAME}" --cluster="${K8S_CONTEXT_NAME}" --user="${K8S_ADMIN_USERNAME}"
+kubectl config use-context "${K8S_CONTEXT_NAME}"
+
+credhub login --server ${CREDHUB_URL} --client-name ${CREDHUB_USERNAME} --client-secret ${CREDHUB_PASSWORD} --skip-tls-validation
+
+credhub set -n "/automation/${CREDHUB_TEAM}/k8s_admin_password" -t value -v ${K8S_ADMIN_PASSWORD}
+credhub set -n "/automation/${CREDHUB_TEAM}/k8s_admin_username" -t value -v ${K8S_ADMIN_USERNAME}
+credhub set -n "/automation/${CREDHUB_TEAM}/k8s_master_host" -t value -v ${K8S_MASTER_HOST}
+credhub set -n "/automation/${CREDHUB_TEAM}/k8s_cluster_name" -t value -v ${K8S_CLUSTER_NAME}
+credhub set -n "/automation/${CREDHUB_TEAM}/k8s_context_name" -t value -v ${K8S_CONTEXT_NAME}
