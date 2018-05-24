@@ -26,7 +26,10 @@ if [[ -z "$(grep kubectl_config ~/.bashrc)" ]]; then
   echo '. $HOME/.kubectl_config' >> ~/.bashrc
 fi
 
+export BOSH_ENVIRONMENT=bosh
 export BOSH_DEPLOYMENT=cfcr
+
+bosh instances
 
 K8S_ADMIN_PASSWORD=$(bosh int <(credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password" --output-json) --path=/value)
 K8S_ADMIN_USERNAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}-admin"
