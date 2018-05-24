@@ -10,5 +10,5 @@ run:
   args:
   - -exc
   - |
-    chmod +x cf_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.sh
-    cf_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.sh
+    chmod +x k8s_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.sh
+    k8s_deployment/ci/tasks/configure_jumpbox/configure_jumpbox.sh

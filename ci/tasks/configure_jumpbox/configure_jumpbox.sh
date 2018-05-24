@@ -11,7 +11,7 @@ JUMPBOX_WORKDIR="/home/ubuntu/configure_jumpbox_k8s_workspace"
 ssh -o StrictHostKeyChecking=no -i jumpbox.pem "ubuntu@${JUMPBOX_IP}" "rm -Rf ${JUMPBOX_WORKDIR}; mkdir -p ${JUMPBOX_WORKDIR}"
 
 # UPLOAD REQUIRED FILES
-scp -o StrictHostKeyChecking=no -i jumpbox.pem cf_deployment/ci/tasks/configure_jumpbox/scripts/* "ubuntu@${JUMPBOX_IP}:${JUMPBOX_WORKDIR}"
+scp -o StrictHostKeyChecking=no -i jumpbox.pem k8s_deployment/ci/tasks/configure_jumpbox/scripts/* "ubuntu@${JUMPBOX_IP}:${JUMPBOX_WORKDIR}"
 
 # RUN UPDATE SCRIPT
 ssh -o StrictHostKeyChecking=no -i jumpbox.pem "ubuntu@${JUMPBOX_IP}" "chmod +x ${JUMPBOX_WORKDIR}/configure.sh; ${JUMPBOX_WORKDIR}/configure.sh ${JUMPBOX_WORKDIR}"
