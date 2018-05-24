@@ -19,7 +19,7 @@ credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password"
 
 K8S_ADMIN_PASSWORD=$(bosh int <(credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password" --output-json) --path=/value)
 K8S_ADMIN_USERNAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}-admin"
-K8S_MASTER_HOST=$(bosh int <(bosh instances --json) --path /Tables/0/Rows/0/ips)
+K8S_MASTER_HOST=$(bosh int <(bosh instances --json) --path /Tables/0/Rows/1/ips)
 K8S_CLUSTER_NAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}"
 K8S_CONTEXT_NAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}"
 
