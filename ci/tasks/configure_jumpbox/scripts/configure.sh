@@ -20,6 +20,7 @@ command -v kubectl || {
     popd
 }
 
+. $HOME/.bosh_envs
 
 # user login actions
 if [[ -z "$(grep kubectl_config ~/.bashrc)" ]]; then
