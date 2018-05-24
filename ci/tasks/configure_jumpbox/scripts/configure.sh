@@ -20,20 +20,17 @@ command -v kubectl || {
     popd
 }
 
-. $HOME/.bosh_envs
-
 # user login actions
 if [[ -z "$(grep kubectl_config ~/.bashrc)" ]]; then
   echo '. $HOME/.kubectl_config' >> ~/.bashrc
 fi
 
+. $HOME/.bosh_envs
 export BOSH_ENVIRONMENT=bosh
 export BOSH_DEPLOYMENT=cfcr
 
-bosh instances
-
 # SETUP CREDHUB
-export CREDHUB_BOSH_URL=https://$(cat bosh_state/bosh_ip):8844
+export CREDHUB_BOSH_URL=https://$(bosh -e bosh envs | head -1 | cut -s -f1):8844
 export CREDHUB_BOSH_USERNAME=director_to_credhub
 export CREDHUB_BOSH_PASSWORD=$(bosh int bosh_state/creds.yml --path /uaa_clients_director_to_credhub)
 
