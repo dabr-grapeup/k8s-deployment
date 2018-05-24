@@ -12,6 +12,9 @@ export CREDHUB_BOSH_PASSWORD=$(bosh int bosh_state/creds.yml --path /uaa_clients
 
 credhub login --server ${CREDHUB_BOSH_URL} --client-name ${CREDHUB_BOSH_USERNAME} --client-secret ${CREDHUB_BOSH_PASSWORD} --skip-tls-validation
 
+export BOSH_ENVIRONMENT=bosh
+export BOSH_DEPLOYMENT=cfcr
+
 credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password"
 
 K8S_ADMIN_PASSWORD=$(bosh int <(credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password" --output-json) --path=/value)
