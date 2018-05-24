@@ -14,10 +14,11 @@ credhub login --server ${CREDHUB_BOSH_URL} --client-name ${CREDHUB_BOSH_USERNAME
 
 export BOSH_CLIENT=admin
 export BOSH_CLIENT_SECRET="$(bosh int bosh_state/creds.yml --path /admin_password)"
+export BOSH_IP=$(cat bosh_state/bosh_ip)
+export BOSH_CA_CERT="$(bosh int bosh_state/creds.yml --path /director_ssl/ca)"
 export BOSH_ENVIRONMENT=bosh
 export BOSH_DEPLOYMENT=cfcr
-
-bosh instances
+bosh alias-env ${BOSH_ENVIRONMENT} -e ${BOSH_IP} --ca-cert ${BOSH_CA_CERT}
 
 credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password"
 
