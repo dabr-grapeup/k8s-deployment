@@ -17,6 +17,8 @@ export BOSH_CLIENT_SECRET="$(bosh int bosh_state/creds.yml --path /admin_passwor
 export BOSH_ENVIRONMENT=bosh
 export BOSH_DEPLOYMENT=cfcr
 
+bosh instances
+
 credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password"
 
 K8S_ADMIN_PASSWORD=$(bosh int <(credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password" --output-json) --path=/value)
