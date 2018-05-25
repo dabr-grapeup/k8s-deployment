@@ -29,12 +29,8 @@ fi
 export BOSH_ENVIRONMENT=bosh
 export BOSH_DEPLOYMENT=cfcr
 
-# SETUP CREDHUB
-export CREDHUB_BOSH_URL=https://$(bosh -e bosh envs | head -1 | cut -s -f1):8844
-export CREDHUB_BOSH_USERNAME=director_to_credhub
-export CREDHUB_BOSH_PASSWORD=$(bosh int bosh_state/creds.yml --path /uaa_clients_director_to_credhub)
-
-credhub login --server ${CREDHUB_BOSH_URL} --client-name ${CREDHUB_BOSH_USERNAME} --client-secret ${CREDHUB_BOSH_PASSWORD} --skip-tls-validation
+# setup credhub
+credhub_login
 
 K8S_ADMIN_PASSWORD=$(bosh int <(credhub get -n "${BOSH_ENVIRONMENT}/${BOSH_DEPLOYMENT}/kubo-admin-password" --output-json) --path=/value)
 K8S_ADMIN_USERNAME="cfcr:${BOSH_ENVIRONMENT}:${BOSH_DEPLOYMENT}-admin"
