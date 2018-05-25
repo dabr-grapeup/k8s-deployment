@@ -29,7 +29,7 @@ bosh upload-stemcell "https://s3.amazonaws.com/bosh-core-stemcells/aws/bosh-stem
 
 # UPDATE CC
 bosh cc > cc.yml
-bosh ucc cc.yml \
+bosh -n ucc cc.yml \
     -o k8s_deployment/ci/tasks/deploy_k8s/ops/lb.yml \
     -v master_target_pool=cf-router-k8s
 
