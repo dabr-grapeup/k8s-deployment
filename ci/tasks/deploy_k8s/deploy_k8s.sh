@@ -31,7 +31,7 @@ bosh upload-stemcell "https://s3.amazonaws.com/bosh-core-stemcells/aws/bosh-stem
 bosh cc > cc.yml
 bosh -n ucc cc.yml \
     -o k8s_deployment/ci/tasks/deploy_k8s/ops/lb.yml \
-    -v master_target_pool=cf-router-k8s
+    -v master_target_pool=platform-api-k8s
 
 # DEPLOY K8S
 bosh -n -d cfcr deploy k8s_deployment/kubo-deployment/manifests/cfcr.yml \
@@ -41,4 +41,4 @@ bosh -n -d cfcr deploy k8s_deployment/kubo-deployment/manifests/cfcr.yml \
     -v addons_vm_type=general_nano \
     -v worker_vm_type=memory_small \
     -v master_vm_type=general_small \
-    -v network_name=cf
+    -v network_name=platform
