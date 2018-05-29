@@ -39,6 +39,7 @@ bosh -n -d cfcr deploy k8s_deployment/kubo-deployment/manifests/cfcr.yml \
     -o k8s_deployment/ci/tasks/deploy_k8s/ops/network.yml \
     -o k8s_deployment/ci/tasks/deploy_k8s/ops/scale-to-two-azs.yml \
     -o k8s_deployment/ci/tasks/deploy_k8s/ops/security-groups.yml \
+    -o k8s_deployment/ci/tasks/deploy_k8s/ops/scale-to-one-master.yml \
     -v addons_vm_type=general_nano \
     -v worker_vm_type=memory_small \
     -v master_vm_type=general_small \
